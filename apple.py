@@ -1,11 +1,9 @@
-import AppStore
+from app_store_scraper import AppStore
 import csv
 import json
 from datetime import datetime
 from itunes_app_scraper.scraper import AppStoreScraper
 import time
-
-
 # Read the app names and IDs from the txt file
 apps = {}
 with open('lista-ios-apps.txt', 'r') as file:
@@ -32,6 +30,7 @@ for app_name, app_id in apps.items():
     with open(csv_file, 'w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(['App Name', 'version', 'rating_avg', 'Author', 'Date', 'Title', 'Comment', 'Rating', 'Response'])
+
         for review in aplicativo.reviews:
             date = review['date']
             comment = review['review']
@@ -46,7 +45,7 @@ for app_name, app_id in apps.items():
     json_file = f"{app_name}_reviews.json"
     reviews_data = {
         'App Name': app_name,
-        'Versao': version,
+        'Verso': version,
         'Estrelas': rating_avg,
         'Reviews': aplicativo.reviews
     }
