@@ -2,7 +2,7 @@ import csv
 import json
 import re
 from datetime import datetime
-from google_play_scraper import app, reviews_all, Sort
+from google_play_scraper import app, Sort, reviews
 
 # Leia o arquivo lista-android-apps.txt
 with open('lista-android-apps.txt', 'r') as file:
@@ -21,13 +21,16 @@ for line in lines:
 
     app_details = app(app_id)
 
-    reviews = reviews_all(
+    reviews_data = reviews(
         app_id,
-        sort=Sort.MOST_RELEVANT,
-        sleep_milliseconds=0,  # padrão: 0
-        lang='br',  # padrão: 'en'
-        country='us',  # padrão: 'us'
+        lang='pt', # defaults to 'en'
+        country='br', # defaults to 'us'
+        sort=Sort.NEWEST, # defaults to Sort.MOST_RELEVANT you can use Sort.NEWEST to get newst reviews_data
+        count=100000, # defaults to 100
+        filter_score_with=None # defaults to None(means all score) Use 1 or 2 or 3 or 4 or 5 to select certain score
     )
+
+
 
     # Escreve os dados em um arquivo CSV
     with open(csv_file, 'w', newline='', encoding='utf-8') as file:
@@ -39,8 +42,8 @@ for line in lines:
         writer.writerow([app_details['title'], app_details['installs'], app_details['score'],
                          app_details['ratings'], app_details['version']])
 
-        # Escreve os reviews no arquivo CSV
-        for review in reviews:
+        # Escreve os reviews_data no arquivo CSV
+        for review in reviews_data[0]:
             reviewer_name = review['userName']
             comment = review['content']
             rating = review['score']
@@ -56,10 +59,10 @@ for line in lines:
         'Score': app_details['score'],
         'Ratings': app_details['ratings'],
         'Versão': app_details['version'],
-        'Reviews': []
+        'reviews_data': []
     }
 
-    for review in reviews:
+    for review in reviews_data[0]:
         reviewer_name = review['userName']
         comment = review['content']
         rating = review['score']
@@ -74,7 +77,7 @@ for line in lines:
             'Respondido': replied
         }
 
-        data['Reviews'].append(review_data)
+        data['reviews_data'].append(review_data)
 
     with open(json_file, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
