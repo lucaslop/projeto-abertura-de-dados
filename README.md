@@ -4,9 +4,9 @@ Para executar o código, é necessário ter instalado o **python 3** e o **git**
 
 # Instruções.
 
-1 - Clone o projeto: no terminal, digite o seguinte comando: `git clone https://github.com/lucaslop/projetoseguranca` <br>
-2 - Entre na pasta do projeto. `cd projetoseguranca` <br>
-3 - Instale as depedências `https://github.com/lucaslop/projetoseguranca` <br>
+1 - Clone o projeto: no terminal, digite o seguinte comando: `git clone https://github.com/lucaslop/projeto-abertura-de-dados` <br>
+2 - Entre na pasta do projeto. `cd projeto-abertura-de-dados` <br>
+3 - Instale as depedências `pip install -r requirements.txt` <br>
 
 
 ## Coleta de dados na google play store
