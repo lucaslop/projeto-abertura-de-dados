@@ -22,7 +22,7 @@ Para executar o código, é necessário ter instalado o **python 3** e o **git**
 
 ## Coleta de dados na apple store
 
-1 - Definir Apps que serão coletados: No arquivo `lista-android-ios.txt`, está o **nome** do aplicativo seguido pelo seu **id**. Insira por linha, o nome e o id aplicativo que deseja coletar os dados <br>
+1 - Definir Apps que serão coletados: No arquivo `lista-ios.txt`, está o **nome** do aplicativo seguido pelo seu **id**. Insira por linha, o nome e o id aplicativo que deseja coletar os dados <br>
 
 2 - Coleta: Para coletar os dados da google play store, digite o comando: `python3 apple.py`. <br>
 
