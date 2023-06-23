@@ -45,7 +45,7 @@ for app_name, app_id in apps.items():
     json_file = f"{app_name}_reviews.json"
     reviews_data = {
         'App Name': app_name,
-        'Verso': version,
+        'Versao': version,
         'Estrelas': rating_avg,
         'Reviews': aplicativo.reviews
     }
