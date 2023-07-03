@@ -6,9 +6,15 @@ from authlib.jose import jwt
 from datetime import datetime
 import os
 import unicodedata
+from dotenv import load_dotenv
 
-KEY_ID = ""
-ISSUER_ID = ""
+# Carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
+
+# Obtém os valores das variáveis de ambiente
+KEY_ID = os.getenv('KEY_ID')
+ISSUER_ID = os.getenv('ISSUER_ID')
+
 EXPIRATION_TIME = int(round(time.time() + (20.0 * 60.0)))  # 20 minutes timestamp
 PATH_TO_KEY = 'key.p8'
 PATH_TO_APPS_LIST = 'lista-ios-apps.txt'
