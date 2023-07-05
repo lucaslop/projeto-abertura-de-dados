@@ -8,6 +8,7 @@ import os
 import unicodedata
 from dotenv import load_dotenv
 
+
 # Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 
@@ -41,7 +42,10 @@ def create_jwt(header, payload, private_key):
 def write_csv(data, app_info):
     app_name = app_info['data']['attributes']['name']
     app_name_normalized = normalize_app_name(app_name)
-    csv_filename = f"{app_name_normalized}-ios.csv"
+    current_date = datetime.now()  # Obtém a data atual
+    month_year = current_date.strftime("%m_%Y")
+    csv_filename = f"dados_{app_name_normalized}_{month_year}_apple.csv"
+    current_date = datetime.now()  # Obtém a data atual
 
     with open(csv_filename, 'a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
@@ -52,21 +56,22 @@ def write_csv(data, app_info):
         sorted_data = sorted(data, key=lambda x: x['attributes']['createdDate'])
         
         for review in sorted_data:
-            review_id = review['id']
-            rating = review['attributes']['rating']
-            title = review['attributes']['title']
-            body = review['attributes']['body']
-            reviewer_nickname = review['attributes']['reviewerNickname']
-            created_date = datetime.strptime(review['attributes']['createdDate'], "%Y-%m-%dT%H:%M:%S%z").strftime("%d/%m/%Y")
-            territory = review['attributes']['territory']
-            
-            if 'response' in review.get('relationships', {}):
-                responded = True
-            else:
-                responded = False
-            
-            
-            writer.writerow([app_info['data']['id'], app_info['data']['attributes']['name'], rating, title, body, reviewer_nickname, created_date, territory])
+            created_date = datetime.strptime(review['attributes']['createdDate'], "%Y-%m-%dT%H:%M:%S%z")
+            if created_date.month == current_date.month and created_date.year == current_date.year:  # Verifica se a revisão é do mês e ano atual
+                review_id = review['id']
+                rating = review['attributes']['rating']
+                title = review['attributes']['title']
+                body = review['attributes']['body']
+                reviewer_nickname = review['attributes']['reviewerNickname']
+                created_date_str = created_date.strftime("%d/%m/%Y")
+                territory = review['attributes']['territory']
+                
+                if 'response' in review.get('relationships', {}):
+                    responded = True
+                else:
+                    responded = False
+                
+                writer.writerow([app_info['data']['id'], app_info['data']['attributes']['name'], rating, title, body, reviewer_nickname, created_date_str, territory])
 
 def fetch_reviews(url, headers, app_info):
     response = requests.get(url, headers=headers)
